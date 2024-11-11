@@ -1,5 +1,6 @@
 package com.example.project_final_2024.network
 
+import com.example.project_final_2024.objets.Categoria
 import com.example.project_final_2024.objets.Producto
 import retrofit2.http.GET
 
@@ -8,5 +9,5 @@ interface FakeStoreApi {
     suspend fun obtenerProductos(): List<Producto>
 
     @GET("products/categories")
-    suspend fun ObtenerCategorias(): List<String>
+    suspend fun obtenerCategorias(): List<String>
 }

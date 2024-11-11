@@ -5,10 +5,15 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.project_final_2024.Utilities.DatabaseHelper
 import com.example.project_final_2024.network.FakeStoreApi
+import com.example.project_final_2024.objets.Categoria
 import com.example.project_final_2024.objets.Producto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import kotlin.random.Random
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -32,40 +37,73 @@ class MainActivity : AppCompatActivity() {
 
         // Insertar datos de la API en la base de datos (en segundo plano)
         obtenerProductosDeAPI()
+        obtenerCategoriasDeAPI()
 
         // Obtener productos de la base de datos para ver si se insertaron
         val productos = dbHelper.obtenerProductos()  // Usa 'dbHelper' aquí
         mostrarProductosEnConsola(productos)
     }
 
-    private fun obtenerProductosDeAPI() {
-        // Usamos Coroutine para hacer la solicitud en segundo plano
+    private fun obtenerCategoriasDeAPI() {
+        // Usamos coroutines para llamar a la API de manera asíncrona
         GlobalScope.launch(Dispatchers.Main) {
             try {
-                // Hacer la llamada a la API para obtener los productos
+                // Realizamos la llamada de forma suspendida
+                val categorias = api.obtenerCategorias() // Llamada suspendida a la API
+
+                // Imprimimos las categorías obtenidas para la depuración
+                Log.d("Inventario", "Categorías obtenidas de la API: $categorias")
+
+                // Verificamos y agregamos las categorías a la base de datos si no existen
+                categorias.forEachIndexed { index, categoriaNombre ->
+                    val categoria = Categoria(id = index + 1, category = categoriaNombre)
+
+                    // Imprimimos cada categoría antes de agregarla a la base de datos
+                    Log.d("Inventario", "Procesando categoría: $categoria")
+
+                    // Verificamos si la categoría ya está en la base de datos
+                    if (!dbHelper.existeCategoria(categoria.id)) {
+                        dbHelper.insertarCategoria(categoria.id, categoria.category)
+                        Log.d("Inventario", "Categoría insertada: $categoria")
+                    }
+                }
+
+            } catch (e: Exception) {
+                Log.e("Inventario", "Error al obtener categorías de la API", e)
+            }
+        }
+    }
+
+    private fun obtenerProductosDeAPI() {
+        GlobalScope.launch(Dispatchers.Main) {
+            try {
+                // Ahora, obtiene los productos de la API
                 val productos = api.obtenerProductos()
 
-                // Insertar productos en la base de datos
+                // Insertar los productos en la base de datos
                 for (producto in productos) {
-                    // Generar un valor aleatorio para el lote entre 1 y 10
+                    // Obtener el id de la categoría a partir del nombre de la categoría
+                    val categoriaId = dbHelper.obtenerIdCategoriaPorNombre(producto.categoryId.toString())
+
+                    // Generar lote aleatorio
                     val loteAleatorio = (1..10).random()
 
-                    // Insertamos el producto con el lote aleatorio
-                    if (producto.title != null && producto.price != null && producto.categoryId != null && producto.image != null) {
+                    // Verificar que el producto tenga datos completos
+                    if (categoriaId != null && producto.title != null && producto.price != null && producto.image != null) {
                         dbHelper.insertarProducto(
                             producto.id.toString(),
                             producto.title,
                             producto.price.toString(),
-                            producto.categoryId.toString(),
+                            categoriaId.toString(),
                             producto.image,
                             loteAleatorio
                         )
                     } else {
-                        Log.e("Inventario", "Producto con datos nulos: $producto")
+                        Log.e("Inventario", "Producto con datos incompletos: $producto")
                     }
                 }
 
-                // Mostrar los productos en consola
+                // Mostrar productos en consola
                 mostrarProductosEnConsola(productos)
 
             } catch (e: Exception) {
@@ -73,6 +111,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 
     private fun mostrarProductosEnConsola(productos: List<Producto>) {
         for (producto in productos) {

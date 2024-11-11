@@ -5,6 +5,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 import com.example.project_final_2024.objets.Producto
 
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -41,7 +42,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db?.execSQL(createCategoriasTable)
 
         // Crear tabla de productos
-        // Crear tabla de productos
         val createProductosTable = """
     CREATE TABLE $TABLE_PRODUCTOS (
         $COL_ID INTEGER PRIMARY KEY,
@@ -77,13 +77,48 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return result != -1L
     }
 
-    fun insertarCategoria(nombre: String): Boolean {
+    // Inserta una categoría si no existe
+    fun insertarCategoria(id: Int, nombre: String) {
         val db = this.writableDatabase
         val values = ContentValues().apply {
+            put(COL_CATEGORIA_ID_, id)
             put(COL_CATEGORIA_NOMBRE, nombre)
         }
-        val result = db.insert(TABLE_CATEGORIAS, null, values)
-        return result != -1L
+        db.insertWithOnConflict(TABLE_CATEGORIAS, null, values, SQLiteDatabase.CONFLICT_IGNORE)
+        db.close()
+    }
+
+    // Verifica si una categoría existe en la base de datos
+    fun existeCategoria(id: Int): Boolean {
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT COUNT(*) FROM $TABLE_CATEGORIAS WHERE $COL_CATEGORIA_ID_ = ?", arrayOf(id.toString()))
+        cursor.moveToFirst()
+        val exists = cursor.getInt(0) > 0
+        cursor.close()
+        db.close()
+        return exists
+    }
+
+    // Obtiene el ID de la categoría según su nombre
+    fun obtenerIdCategoriaPorNombre(categoriaNombre: String): Int? {
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT $COL_CATEGORIA_ID_ FROM $TABLE_CATEGORIAS WHERE $COL_CATEGORIA_NOMBRE = ?", arrayOf(categoriaNombre))
+
+        // Verificamos si la consulta obtuvo algún resultado
+        if (cursor.moveToFirst()) {
+            val columnIndex = cursor.getColumnIndex("id")  // Busca el índice de la columna "id"
+
+            // Si la columna existe, extraemos el valor
+            if (columnIndex != -1) {
+                val id = cursor.getInt(columnIndex)
+                cursor.close()
+                return id
+            } else {
+                Log.e("Database", "Columna 'id' no encontrada en la consulta.")
+            }
+        }
+        cursor.close()
+        return null  // Retorna null si no se encontró la categoría
     }
 
     @SuppressLint("Range")
