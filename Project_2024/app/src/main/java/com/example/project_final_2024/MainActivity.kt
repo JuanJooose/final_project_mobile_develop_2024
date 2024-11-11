@@ -16,9 +16,12 @@ import retrofit2.Response
 import kotlin.random.Random
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
 
+
+    private lateinit var categoriaList: List<Categoria>
     private lateinit var dbHelper: DatabaseHelper // Asegúrate de que la variable se llame 'dbHelper'
     private val api: FakeStoreApi by lazy {
         val retrofit = Retrofit.Builder()
@@ -42,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         // Obtener productos de la base de datos para ver si se insertaron
         val productos = dbHelper.obtenerProductos()  // Usa 'dbHelper' aquí
         mostrarProductosEnConsola(productos)
+        getProductsbyDatabase()
     }
 
     private fun obtenerCategoriasDeAPI() {
@@ -78,18 +82,18 @@ class MainActivity : AppCompatActivity() {
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 // Ahora, obtiene los productos de la API
-                val productos = api.obtenerProductos()
+                val products = api.getProducts()
 
                 // Insertar los productos en la base de datos
-                for (producto in productos) {
+                for (producto in products) {
                     // Obtener el id de la categoría a partir del nombre de la categoría
-                    val categoriaId = dbHelper.obtenerIdCategoriaPorNombre(producto.categoryId.toString())
+                    val categoriaId = dbHelper.obtenerIdCategoriaPorNombre(producto.category)
 
                     // Generar lote aleatorio
                     val loteAleatorio = (1..10).random()
 
                     // Verificar que el producto tenga datos completos
-                    if (categoriaId != null && producto.title != null && producto.price != null && producto.image != null) {
+                    if (categoriaId != null && producto.title != "" && producto.price != 0.0 && producto.image != "") {
                         dbHelper.insertarProducto(
                             producto.id.toString(),
                             producto.title,
@@ -98,13 +102,17 @@ class MainActivity : AppCompatActivity() {
                             producto.image,
                             loteAleatorio
                         )
+                        Log.d(
+                            "Inventario",
+                            "Producto: ${producto.title}, Precio: ${producto.price}, CategoriaID: ${categoriaId}, Imagen: ${producto.image}, Lote: ${producto.lote}"
+                        )
                     } else {
                         Log.e("Inventario", "Producto con datos incompletos: $producto")
                     }
                 }
 
                 // Mostrar productos en consola
-                mostrarProductosEnConsola(productos)
+//                mostrarProductosEnConsola(products)
 
             } catch (e: Exception) {
                 Log.e("Inventario", "Error al obtener productos de la API", e)
@@ -115,8 +123,21 @@ class MainActivity : AppCompatActivity() {
 
     private fun mostrarProductosEnConsola(productos: List<Producto>) {
         for (producto in productos) {
-            Log.d("Inventario", "Producto: ${producto.title}, Precio: ${producto.price}, CategoriaID: ${producto.categoryId}, Imagen: ${producto.image}, Lote: ${producto.lote}")
+            Log.d(
+                "InventarioFunction",
+                "Producto: ${producto.title}, Precio: ${producto.price}, CategoriaID: ${producto.categoryId}, Imagen: ${producto.image}, Lote: ${producto.lote}"
+            )
         }
     }
+
+
+    private fun getProductsbyDatabase() {
+        val products = dbHelper.obtenerProductos()
+
+        for (p in products) {
+            Log.d("ProductByDB", "title: ${p.title}  CategoryId: ${p.categoryId}")
+        }
+    }
+
 
 }

@@ -44,7 +44,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         // Crear tabla de productos
         val createProductosTable = """
     CREATE TABLE $TABLE_PRODUCTOS (
-        $COL_ID INTEGER PRIMARY KEY,
+        $COL_ID INTEGER PRIMARY KEY AUTOINCREMENT,
         $COL_NOMBRE TEXT NOT NULL,
         $COL_PRECIO REAL NOT NULL,
         $COL_CATEGORIA_ID INTEGER,
@@ -66,7 +66,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     fun insertarProducto(id: String, nombre: String, precio: String, categoriaId: String, imagen: String, lote: Int): Boolean {
         val db = this.writableDatabase
         val values = ContentValues().apply {
-            put(COL_ID, id)
+//            put(COL_ID, id)
             put(COL_NOMBRE, nombre)
             put(COL_PRECIO, precio)
             put(COL_CATEGORIA_ID, categoriaId)
