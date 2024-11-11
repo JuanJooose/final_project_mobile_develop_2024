@@ -41,23 +41,26 @@ class MainActivity : ComponentActivity() {
     override fun onStart() {
         super.onStart()
 
-        val productTitle: String? = utilities.getDataBySharedPref(this, "title");
-        val productDescription: String? = utilities.getDataBySharedPref(this, "description");
-        val productReviewed: String? = utilities.getDataBySharedPref(this, "dateReviewed");
+        // Obtener datos guardados en SharedPreferences
+        val productTitle: String? = utilities.getDataBySharedPref(this, "title")
+        val productDescription: String? = utilities.getDataBySharedPref(this, "description")
 
-        utilities.saveDataInSharedPref(this);
-
+        // Mostrar en Log los datos obtenidos
         Log.d("Titulo", "$productTitle\n")
-        Log.d("Descripción", "$productDescription\n")
-        Log.d("Producto reviewed", "EL producto fué visto por última vez el $productReviewed\n")
+        Log.d("Descripcion", "$productDescription\n")
 
+        // Guardar los datos en SharedPreferences
+        utilities.saveDataInSharedPref(this)
 
+        // Crear el archivo si no existe
         utilities.createFileIfNotExists(this)
-        utilities.saveDataInFile(this);
 
-        val contentByFile = utilities.getDataByFile(this);
+        // Guardar los datos en archivo
+        utilities.saveDataInFile(this)
 
-        Log.d("Datos", "Contenido del archivo $contentByFile\n")
+        // Obtener datos del archivo
+        val contentByFile = utilities.getDataByFile(this)
+        Log.d("Datos", "Contenido del archivo: $contentByFile\n")
     }
 }
 
