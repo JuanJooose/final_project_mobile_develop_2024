@@ -3,9 +3,11 @@ package com.example.project_final_2024
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.project_final_2024.Utilities.DatabaseHelper
 import com.example.project_final_2024.network.FakeStoreApi
 import com.example.project_final_2024.objets.Categoria
+import com.example.project_final_2024.objets.FragmentProduct
 import com.example.project_final_2024.objets.Producto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -20,8 +22,6 @@ import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
 
-
-    private lateinit var categoriaList: List<Categoria>
     private lateinit var dbHelper: DatabaseHelper // Asegúrate de que la variable se llame 'dbHelper'
     private val api: FakeStoreApi by lazy {
         val retrofit = Retrofit.Builder()
@@ -39,14 +39,26 @@ class MainActivity : AppCompatActivity() {
         dbHelper = DatabaseHelper(this) // Asegúrate de que se inicialice como 'dbHelper'
 
         // Insertar datos de la API en la base de datos (en segundo plano)
-        obtenerProductosDeAPI()
-        obtenerCategoriasDeAPI()
+        obtenerProductosDeAPI();
+        obtenerCategoriasDeAPI();
+
+
 
         // Obtener productos de la base de datos para ver si se insertaron
-        val productos = dbHelper.obtenerProductos()  // Usa 'dbHelper' aquí
-        mostrarProductosEnConsola(productos)
-        getProductsbyDatabase()
+        val productos = dbHelper.obtenerProductos();
+
+//        getProductsbyDatabase()
+        Log.e("Cauntos productos hay? ", "${productos.size}")
+        for (product in productos) {
+            val fragment = FragmentProduct.newInstance(product.title, product.price)
+            supportFragmentManager.beginTransaction()
+                .add(R.id.frame_lyt, fragment)
+                .addToBackStack(null)
+                .commit()
+        }
     }
+
+
 
     private fun obtenerCategoriasDeAPI() {
         // Usamos coroutines para llamar a la API de manera asíncrona
@@ -56,14 +68,14 @@ class MainActivity : AppCompatActivity() {
                 val categorias = api.obtenerCategorias() // Llamada suspendida a la API
 
                 // Imprimimos las categorías obtenidas para la depuración
-                Log.d("Inventario", "Categorías obtenidas de la API: $categorias")
+//                Log.d("Inventario", "Categorías obtenidas de la API: $categorias")
 
                 // Verificamos y agregamos las categorías a la base de datos si no existen
                 categorias.forEachIndexed { index, categoriaNombre ->
                     val categoria = Categoria(id = index + 1, category = categoriaNombre)
 
                     // Imprimimos cada categoría antes de agregarla a la base de datos
-                    Log.d("Inventario", "Procesando categoría: $categoria")
+//                    Log.d("Inventario", "Procesando categoría: $categoria")
 
                     // Verificamos si la categoría ya está en la base de datos
                     if (!dbHelper.existeCategoria(categoria.id)) {
@@ -131,13 +143,18 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun getProductsbyDatabase() {
-        val products = dbHelper.obtenerProductos()
+//    private fun getProductsbyDatabase() {
+//        val products = dbHelper.obtenerProductos()
+//
+////        for (p in products) {
+////            Log.d("ProductByDB", "title: ${p.title}  CategoryId: ${p.categoryId}")
+////        }
+//    }
 
-        for (p in products) {
-            Log.d("ProductByDB", "title: ${p.title}  CategoryId: ${p.categoryId}")
-        }
+    private fun replaceFragment(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.frame_lyt, fragment)
+        transaction.commit()
     }
-
 
 }

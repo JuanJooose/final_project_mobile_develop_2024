@@ -15,6 +15,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:flexDirection="column"
+                app:alignItems="center">
+
+                <FrameLayout
+                    android:id="@+id/frame_lyt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </FrameLayout>
+            </com.google.android.flexbox.FlexboxLayout>
+        </ScrollView>
     </LinearLayout>
 
 </LinearLayout>

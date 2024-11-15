@@ -6,4 +6,6 @@
     </style>
 
     <style name="Theme.Project_final_2024" parent="Base.Theme.Project_final_2024" />
+
+    <style name="flex" > </style>
 </resources>
