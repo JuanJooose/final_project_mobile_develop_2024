@@ -27,37 +27,31 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/title"
-                android:text="Titulo"
-                >
+                android:id="@+id/name">
             </TextView>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/category"
-                android:text="Categoria">
+                android:id="@+id/category">
             </TextView>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/idProduct"
-                android:text="idProduct">
+                android:id="@+id/idProduct">
             </TextView>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/stock"
-                android:text="stock:">
+                android:id="@+id/stock">
             </TextView>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/container"
-                android:text="Contenedor: ">
+                android:id="@+id/lote">
             </TextView>
 
         </LinearLayout>

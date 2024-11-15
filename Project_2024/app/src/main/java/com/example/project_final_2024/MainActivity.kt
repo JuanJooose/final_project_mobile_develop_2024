@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 //        getProductsbyDatabase()
         Log.e("Cauntos productos hay? ", "${productos.size}")
         for (product in productos) {
-            val fragment = FragmentProduct.newInstance(product.title, product.price)
+            val fragment = FragmentProduct.newInstance(product.title, product.price, product.lote, product.categoryId)
             supportFragmentManager.beginTransaction()
                 .add(R.id.frame_lyt, fragment)
                 .addToBackStack(null)
