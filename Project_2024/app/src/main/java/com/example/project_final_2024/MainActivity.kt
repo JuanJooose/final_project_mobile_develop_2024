@@ -36,19 +36,22 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        dbHelper = DatabaseHelper(this) // Asegúrate de que se inicialice como 'dbHelper'
+        dbHelper = DatabaseHelper(this)
 
-        // Insertar datos de la API en la base de datos (en segundo plano)
-        obtenerProductosDeAPI();
-        obtenerCategoriasDeAPI();
+        // Verificar si ya hay productos en la base de datos
+        val productos = dbHelper.obtenerProductos()
+        Log.e("Cuántos productos hay?", "${productos.size}")
 
+        if (productos.isEmpty()) {
+            // Si no hay productos, cargamos los datos desde la API
+            obtenerProductosDeAPI()
+            obtenerCategoriasDeAPI()
+        } else {
+            // Ya hay productos en la base de datos, puedes evitar volver a cargarlos
+            Log.d("Inventario", "Los productos ya están cargados, no se volverán a insertar.")
+        }
 
-
-        // Obtener productos de la base de datos para ver si se insertaron
-        val productos = dbHelper.obtenerProductos();
-
-//        getProductsbyDatabase()
-        Log.e("Cauntos productos hay? ", "${productos.size}")
+        // Mostrar productos en la interfaz
         for (product in productos) {
             val fragment = FragmentProduct.newInstance(product.title, product.price, product.lote, product.categoryId)
             supportFragmentManager.beginTransaction()
