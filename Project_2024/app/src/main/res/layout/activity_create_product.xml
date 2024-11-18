@@ -6,7 +6,76 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/bg_color"
     tools:context=".CreateProductActivity">
 
+    <include layout="@layout/header"></include>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="15dp"
+            android:theme="@style/flex_layout"
+            android:background="@drawable/product_card_drwbl">
+
+            <EditText
+                android:id="@+id/product_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_drwbl"
+                android:hint="Nombre del producto"
+                >
+            </EditText>
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown"
+                android:background="@drawable/edittext_drwbl"                />
+
+            <EditText
+                android:id="@+id/product_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_drwbl"
+
+                android:hint="Lote">
+            </EditText>
+
+            <EditText
+                android:id="@+id/product_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_drwbl"
+                android:hint="Precio">
+            </EditText>
+
+            <EditText
+                android:id="@+id/product_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_drwbl"
+                android:hint="Url de la imagen">
+            </EditText>
+
+
+            <Button
+                android:id="@+id/btn_add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/addColor"
+                android:text="Agregar Producto">
+            </Button>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
 </LinearLayout>

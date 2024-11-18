@@ -1,6 +1,5 @@
 package com.example.project_final_2024.objets
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,7 @@ import com.example.project_final_2024.R
 import com.squareup.picasso.Picasso
 
 class ProductAdapter(private val productList: List<Producto>) :
+
     RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
@@ -21,7 +21,6 @@ class ProductAdapter(private val productList: List<Producto>) :
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product = productList[position]
-        // Aquí puedes enlazar los datos, por ejemplo:
         holder.productName.setText(product.title)
         holder.productCategory.setText("Categoria: ${product.categoryId}")
         holder.productId.setText("Id: ${product.id}")

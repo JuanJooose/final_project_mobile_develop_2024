@@ -13,10 +13,11 @@
         android:background="@drawable/rounded_header">
 
         <Button
+            android:id="@+id/btn_add_product"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Agregar productos"
-            android:background="@drawable/btn_addproduct_drwbl">
+            android:text="text"
+            android:backgroundTint="@color/addColor">
         </Button>
 
     </LinearLayout>

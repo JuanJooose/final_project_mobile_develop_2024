@@ -5,4 +5,5 @@
     <color name="bg_color">#464E50</color>
     <color name="bg_header">#162125</color>
     <color name="bg_subheader">#9BA1A3</color>
+    <color name="addColor">#11009e</color>
 </resources>

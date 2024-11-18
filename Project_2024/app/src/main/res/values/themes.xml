@@ -7,5 +7,10 @@
 
     <style name="Theme.Project_final_2024" parent="Base.Theme.Project_final_2024" />
 
-    <style name="flex" > </style>
+    <style name="flex_layout">
+        <item name="android:layout_marginVertical">8sp</item>
+        <item name="android:paddingHorizontal">10sp</item>
+        <item name="android:paddingVertical">4sp</item>
+        <item name="borderRound">2sp</item>
+    </style>
 </resources>
