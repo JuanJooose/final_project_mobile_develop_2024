@@ -2,16 +2,21 @@ package com.example.project_final_2024
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.project_final_2024.Utilities.DatabaseHelper
 import com.example.project_final_2024.network.FakeStoreApi
 import com.example.project_final_2024.objets.Categoria
-import com.example.project_final_2024.objets.FragmentProduct
+import com.example.project_final_2024.objets.ProductAdapter
 import com.example.project_final_2024.objets.Producto
+import com.google.android.flexbox.FlexboxLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+//        flexboxLayout = findViewById<FlexboxLayout>(R.id.flexboxLayout)
         dbHelper = DatabaseHelper(this)
 
         // Verificar si ya hay productos en la base de datos
@@ -51,14 +57,13 @@ class MainActivity : AppCompatActivity() {
             Log.d("Inventario", "Los productos ya están cargados, no se volverán a insertar.")
         }
 
-        // Mostrar productos en la interfaz
-        for (product in productos) {
-            val fragment = FragmentProduct.newInstance(product.title, product.price, product.lote, product.categoryId)
-            supportFragmentManager.beginTransaction()
-                .add(R.id.frame_lyt, fragment)
-                .addToBackStack(null)
-                .commit()
-        }
+        // Creación de tarjetas de productos dinamicos
+        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val adapter = ProductAdapter(productos)
+        recyclerView.adapter = adapter
+
     }
 
 
@@ -143,21 +148,6 @@ class MainActivity : AppCompatActivity() {
                 "Producto: ${producto.title}, Precio: ${producto.price}, CategoriaID: ${producto.categoryId}, Imagen: ${producto.image}, Lote: ${producto.lote}"
             )
         }
-    }
-
-
-//    private fun getProductsbyDatabase() {
-//        val products = dbHelper.obtenerProductos()
-//
-////        for (p in products) {
-////            Log.d("ProductByDB", "title: ${p.title}  CategoryId: ${p.categoryId}")
-////        }
-//    }
-
-    private fun replaceFragment(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.frame_lyt, fragment)
-        transaction.commit()
     }
 
 }

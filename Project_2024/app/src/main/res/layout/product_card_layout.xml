@@ -1,60 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/bg_header">
+    android:background="@drawable/product_card_drwbl"
+    android:padding="10dp"
+    android:layout_marginBottom="10dp">
 
-    <RelativeLayout
+    <!-- Espacio para tu imagen o fragmento, si es necesario -->
+    <ImageView
+        android:id="@+id/product_image"
+        android:layout_width="50dp"
+        android:layout_height="95dp"
+        android:layout_gravity="start"
+        />
+
+    <!-- Contenedor para los TextViews -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:orientation="vertical"
+        android:layout_gravity="end"
+        android:layout_marginStart="60dp">  <!-- Deja espacio para la imagen a la izquierda -->
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="300dp"
-            android:layout_alignParentEnd="true"
+        <TextView
+            android:id="@+id/product_id"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:textAlignment="textEnd"
-            >
+            android:text="ID"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray" />}
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/name">
-            </TextView>
+        <TextView
+            android:id="@+id/product_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Product Name"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/category">
-            </TextView>
+        <TextView
+            android:id="@+id/product_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Category"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/idProduct">
-            </TextView>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/stock">
-            </TextView>
+        <TextView
+            android:id="@+id/product_stock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Stock: 10"
+            android:textSize="14sp"
+            android:textColor="@android:color/holo_green_dark" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/lote">
-            </TextView>
-
-        </LinearLayout>
-    </RelativeLayout>
-
-</RelativeLayout>
+        <TextView
+            android:id="@+id/product_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Batch"
+            android:textSize="14sp"
+            android:textColor="@android:color/holo_blue_dark" />
+    </LinearLayout>
+</FrameLayout>
