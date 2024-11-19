@@ -17,6 +17,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="text"
+            android:layout_marginEnd="12dp"
+            android:backgroundTint="@color/addColor">
+        </Button>
+
+        <Button
+            android:id="@+id/btn_add_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="text"
+            android:layout_marginEnd="12dp"
+            android:backgroundTint="@color/addColor">
+        </Button>
+
+        <Button
+            android:id="@+id/btn_add_invoice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="text"
             android:backgroundTint="@color/addColor">
         </Button>
 

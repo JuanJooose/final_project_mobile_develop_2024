@@ -3,6 +3,7 @@ package com.example.project_final_2024
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -14,9 +15,12 @@ import com.example.project_final_2024.objets.ProductAdapter
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var dbHelper: DatabaseHelper; // Asegúrate de que la variable se llame 'dbHelper'
+    private lateinit var dbHelper: DatabaseHelper;
     private lateinit var fakeStoreService: FakeStoreService;
     private lateinit var btnAddProduct: Button;
+    private lateinit var btnAddCategory: Button;
+    private lateinit var btnAddInvoice: Button;
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,8 +29,20 @@ class MainActivity : AppCompatActivity() {
 
         dbHelper = DatabaseHelper(this)
         fakeStoreService = FakeStoreService(dbHelper);
+
         btnAddProduct = findViewById(R.id.btn_add_product);
-        btnAddProduct.setText("Agregar producto");
+        btnAddProduct.setText("Add producto");
+
+        btnAddCategory = findViewById(R.id.btn_add_category);
+        btnAddCategory.setText("Add categoría");
+
+        btnAddInvoice = findViewById(R.id.btn_add_invoice);
+        btnAddInvoice.setText("Add factura");
+
+        btnAddProduct.visibility = View.VISIBLE
+        btnAddCategory.visibility = View.VISIBLE
+        btnAddInvoice.visibility = View.VISIBLE
+
         // Verificar si ya hay productos en la base de datos
 
         val productos = dbHelper.obtenerProductos()
@@ -55,6 +71,11 @@ class MainActivity : AppCompatActivity() {
 
         btnAddProduct.setOnClickListener {
             val intent = Intent(this, CreateProductActivity::class.java);
+            startActivity(intent);
+        }
+
+        btnAddCategory.setOnClickListener {
+            val intent = Intent(this, ManageCategoriesActivity::class.java);
             startActivity(intent);
         }
     }

@@ -24,6 +24,7 @@ class ProductAdapter(private val productList: List<Producto>) :
         holder.productName.setText(product.title)
         holder.productCategory.setText("Categoria: ${product.categoryId}")
         holder.productId.setText("Id: ${product.id}")
+        holder.productPrice.setText("Precio: ${product.price}")
         holder.productContainer.setText("Lote: ${product.lote}")
         Picasso.get()
             .load(product.image)  // Aquí pones la URL de la imagen
@@ -40,7 +41,7 @@ class ProductAdapter(private val productList: List<Producto>) :
         var productName: TextView = itemView.findViewById(R.id.product_name);
         var productCategory: TextView = itemView.findViewById(R.id.product_category)
         var productId: TextView = itemView.findViewById(R.id.product_id)
-        var productStock: TextView = itemView.findViewById(R.id.product_stock)
+        var productPrice: TextView = itemView.findViewById(R.id.product_price)
         var productContainer: TextView = itemView.findViewById(R.id.product_container)
         var productImage: ImageView = itemView.findViewById(R.id.product_image)
     }

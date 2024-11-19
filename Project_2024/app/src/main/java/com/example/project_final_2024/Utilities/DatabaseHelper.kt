@@ -6,6 +6,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
+import com.example.project_final_2024.objets.Categoria
 import com.example.project_final_2024.objets.Producto
 
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -119,6 +120,37 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         }
         cursor.close()
         return null  // Retorna null si no se encontró la categoría
+    }
+
+    @SuppressLint("Range")
+    fun obtenerMaximoIdCategoria(): Int? {
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT MAX($COL_CATEGORIA_ID_) AS maxId FROM $TABLE_CATEGORIAS", null)
+        var maxId: Int? = null
+
+        if (cursor.moveToFirst()) {
+            maxId = cursor.getInt(cursor.getColumnIndex("maxId"))
+        }
+        cursor.close()
+        return maxId
+    }
+
+
+    @SuppressLint("Range")
+    fun obtenerCategorias(): List<Categoria> {
+        val db = this.readableDatabase
+        val categorias = mutableListOf<Categoria>()
+        val cursor = db.rawQuery("SELECT * FROM $TABLE_CATEGORIAS", null)
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                val id = cursor.getInt(cursor.getColumnIndex(COL_CATEGORIA_ID_))
+                val nombre = cursor.getString(cursor.getColumnIndex(COL_CATEGORIA_NOMBRE))
+                categorias.add(Categoria(id, nombre))
+            } while (cursor.moveToNext())
+        }
+        cursor?.close()
+        return categorias
     }
 
     @SuppressLint("Range")
