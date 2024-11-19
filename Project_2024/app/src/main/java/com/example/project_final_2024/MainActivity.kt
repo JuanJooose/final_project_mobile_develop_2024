@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnAddCategory: Button;
     private lateinit var btnAddInvoice: Button;
 
+    private val REQUEST_CODE_INVOICE = 100  // Código de solicitud para InvoiceActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,13 +32,13 @@ class MainActivity : AppCompatActivity() {
         fakeStoreService = FakeStoreService(dbHelper);
 
         btnAddProduct = findViewById(R.id.btn_add_product);
-        btnAddProduct.setText("Add producto");
+        btnAddProduct.setText("+ Producto");
 
         btnAddCategory = findViewById(R.id.btn_add_category);
-        btnAddCategory.setText("Add categoría");
+        btnAddCategory.setText("+ Categoría");
 
         btnAddInvoice = findViewById(R.id.btn_add_invoice);
-        btnAddInvoice.setText("Add factura");
+        btnAddInvoice.setText("+ Factura");
 
         btnAddProduct.visibility = View.VISIBLE
         btnAddCategory.visibility = View.VISIBLE
@@ -65,7 +66,6 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
     }
 
-
     override fun onStart() {
         super.onStart()
 
@@ -76,6 +76,11 @@ class MainActivity : AppCompatActivity() {
 
         btnAddCategory.setOnClickListener {
             val intent = Intent(this, ManageCategoriesActivity::class.java);
+            startActivity(intent);
+        }
+
+        btnAddInvoice.setOnClickListener {
+            val intent = Intent(this, InvoiceActivity::class.java);
             startActivity(intent);
         }
     }

@@ -186,5 +186,15 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return productos
     }
 
+    fun actualizarStock(productId: Int, nuevoStock: Int) {
+        val db = writableDatabase
+        val values = ContentValues().apply {
+            put(COL_LOTE, nuevoStock)
+        }
+        db.update(TABLE_PRODUCTOS, values, "$COL_ID = ?", arrayOf(productId.toString()))
+        db.close()
+    }
+
+
 }
 

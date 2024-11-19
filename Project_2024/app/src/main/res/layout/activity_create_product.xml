@@ -29,8 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittext_drwbl"
-                android:hint="Nombre del producto"
-                >
+                android:hint="Nombre del producto"                >
             </EditText>
 
             <Spinner
@@ -45,7 +44,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittext_drwbl"
-
                 android:hint="Lote">
             </EditText>
 
@@ -72,13 +70,6 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/addColor"
                 android:text="Agregar Producto">
-            </Button>
-
-            <Button
-                android:id="@+id/btn_add_product"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Volver">
             </Button>
 
         </LinearLayout>

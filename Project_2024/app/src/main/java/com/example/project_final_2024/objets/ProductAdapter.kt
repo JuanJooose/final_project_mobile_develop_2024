@@ -24,8 +24,8 @@ class ProductAdapter(private val productList: List<Producto>) :
         holder.productName.setText(product.title)
         holder.productCategory.setText("Categoria: ${product.categoryId}")
         holder.productId.setText("Id: ${product.id}")
-        holder.productPrice.setText("Precio: ${product.price}")
-        holder.productContainer.setText("Lote: ${product.lote}")
+        holder.productPrice.setText("Precio: $${product.price}")
+        holder.productContainer.setText("Lote: ${product.lote} unds" )
         Picasso.get()
             .load(product.image)  // Aquí pones la URL de la imagen
             .placeholder(R.drawable.rounded_subheader)  // Imagen de placeholder mientras carga // Imagen a mostrar si hay un error
