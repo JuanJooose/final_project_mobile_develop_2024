@@ -186,15 +186,30 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return productos
     }
 
-    fun actualizarStock(productId: Int, nuevoStock: Int) {
+    fun actualizarStock(productId: Int, incrementoStock: Int) {
         val db = writableDatabase
-        val values = ContentValues().apply {
-            put(COL_LOTE, nuevoStock)
+
+        // Consultar el stock actual
+        val cursor = db.rawQuery("SELECT $COL_LOTE FROM $TABLE_PRODUCTOS WHERE $COL_ID = ?", arrayOf(productId.toString()))
+        if (cursor.moveToFirst()) {
+            val stockActual = cursor.getInt(cursor.getColumnIndexOrThrow(COL_LOTE))
+            cursor.close()
+
+            // Sumar el incremento al stock actual
+            val nuevoStock = stockActual + incrementoStock
+
+            // Actualizar el stock en la base de datos
+            val values = ContentValues().apply {
+                put(COL_LOTE, nuevoStock)
+            }
+            db.update(TABLE_PRODUCTOS, values, "$COL_ID = ?", arrayOf(productId.toString()))
+        } else {
+            cursor.close()
+            throw IllegalArgumentException("El producto con ID $productId no existe en la base de datos")
         }
-        db.update(TABLE_PRODUCTOS, values, "$COL_ID = ?", arrayOf(productId.toString()))
+
         db.close()
     }
-
 
 }
 

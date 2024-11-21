@@ -21,8 +21,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnAddCategory: Button;
     private lateinit var btnAddInvoice: Button;
 
-    private val REQUEST_CODE_INVOICE = 100  // Código de solicitud para InvoiceActivity
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

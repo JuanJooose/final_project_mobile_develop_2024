@@ -17,7 +17,7 @@ import com.example.project_final_2024.Utilities.DatabaseHelper
 
 class CreateProductActivity : AppCompatActivity() {
     private lateinit var btnBackToMain: Button;
-    private lateinit var btnAddCategory: Button;
+    private lateinit var btnAddStock: Button;
     private lateinit var btnAddInvoice: Button;
     private lateinit var btnCreateProduct: Button;
     private lateinit var spnnrCategories: Spinner;
@@ -30,12 +30,12 @@ class CreateProductActivity : AppCompatActivity() {
         dbHelper = DatabaseHelper(this)
         spnnrCategories = findViewById(R.id.spinner)
         btnBackToMain = findViewById(R.id.btn_add_product)
-        btnAddCategory = findViewById(R.id.btn_add_category)
+        btnAddStock = findViewById(R.id.btn_add_category)
         btnAddInvoice = findViewById(R.id.btn_add_invoice)
         btnCreateProduct = findViewById(R.id.btn_add)
 
         btnBackToMain.visibility = View.VISIBLE
-        btnAddCategory.visibility = View.GONE
+        btnAddStock.visibility = View.VISIBLE
         btnAddInvoice.visibility = View.GONE
 
         loadCategoriesIntoSpinner()
@@ -48,16 +48,20 @@ class CreateProductActivity : AppCompatActivity() {
         spnnrCategories.adapter = adapter
     }
 
-
     override fun onStart() {
         super.onStart()
         btnBackToMain.setText("Volver")
+        btnAddStock.setText("Agregar Lotes")
 
         btnBackToMain.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java);
             startActivity(intent)
         }
 
+        btnAddStock.setOnClickListener {
+            val intent = Intent(this, UpdateStockActivity::class.java);
+            startActivity(intent)
+        }
 
         btnCreateProduct.setOnClickListener {
             // Obtener los valores de los campos

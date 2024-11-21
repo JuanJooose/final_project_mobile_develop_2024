@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_color">
+
+    <include layout="@layout/header"></include>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="15dp"
+            android:theme="@style/flex_layout"
+            android:background="@drawable/product_card_drwbl">
+
+            <EditText
+                android:id="@+id/et_product_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="ID del Producto"
+                android:inputType="number"
+                android:background="@drawable/edittext_drwbl" />
+
+            <EditText
+                android:id="@+id/et_new_stock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nuevo Stock"
+                android:inputType="number"
+                android:background="@drawable/edittext_drwbl"
+                android:layout_marginTop="16dp" />
+
+            <Button
+                android:id="@+id/btn_update_stock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Actualizar Stock"
+                android:backgroundTint="@color/addColor"
+                android:layout_marginTop="16dp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>
