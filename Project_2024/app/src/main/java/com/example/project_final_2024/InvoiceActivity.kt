@@ -51,13 +51,6 @@ class InvoiceActivity : AppCompatActivity() {
             calculateTotal()
         }
 
-        // Generar factura
-        btnGenerateInvoice.setOnClickListener {
-            generateInvoice()
-
-            val intent = Intent(this, MainActivity::class.java);
-            startActivity(intent)
-        }
     }
 
     private fun calculateTotal() {
@@ -65,25 +58,23 @@ class InvoiceActivity : AppCompatActivity() {
         tvTotal.text = "Total: $$total"
     }
 
-    private fun generateInvoice() {
-        selectedProducts.forEach { (producto, cantidad) ->
-            val nuevoStock = producto.lote - cantidad
-            dbHelper.actualizarStock(producto.id, nuevoStock)
-        }
-
-        // Regresar a MainActivity con un resultado que indique que se generó la factura
-        val resultIntent = Intent()
-        setResult(RESULT_OK, resultIntent)
-        finish() // Cierra la actividad después de generar la factura
-    }
-
-
     override fun onStart() {
         super.onStart()
         btnBackToMain.setText("Volver")
         btnBackToMain.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java);
             startActivity(intent)
+            finish() // Cierra la actividad actual para evitar volver a ella con el botón "Atrás"
         }
+
+        // Generar factura
+        btnGenerateInvoice.setOnClickListener {
+
+            // Aquí estamos enviando el mapa de productos seleccionados a la siguiente actividad
+            val intent = Intent(this, InvoiceDetailActivity::class.java)
+            intent.putExtra("selectedProducts", HashMap(selectedProducts)) // Convertimos el Map a HashMap
+            startActivity(intent)
+        }
+
     }
 }

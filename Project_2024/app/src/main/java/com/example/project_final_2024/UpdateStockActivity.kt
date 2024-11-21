@@ -69,6 +69,9 @@ class UpdateStockActivity : AppCompatActivity() {
             try {
                 dbHelper.actualizarStock(id, stock)
                 Toast.makeText(this, "Stock actualizado exitosamente", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish() // Opcional: cerrar esta actividad para evitar volver a ella con el botón atrás
             } catch (e: Exception) {
                 Toast.makeText(this, "Error al actualizar el stock", Toast.LENGTH_SHORT).show()
             }

@@ -53,6 +53,8 @@ dependencies {
     implementation(libs.androidx.espresso.core)
     implementation("com.squareup.picasso:picasso:2.8")
     implementation("com.google.android.flexbox:flexbox:3.0.0")
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.lottie)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

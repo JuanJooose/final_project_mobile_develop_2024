@@ -13,6 +13,7 @@ constraintlayout = "2.1.4"
 retrofit = "2.9.0"
 gsonConverter = "2.9.0"
 kotlinxCoroutines = "1.7.0"
+lotties = "5.0.3"
 
 
 [libraries]
@@ -28,6 +29,7 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofitgson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "gsonConverter" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
+lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lotties" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

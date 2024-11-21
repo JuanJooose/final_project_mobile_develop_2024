@@ -211,5 +211,36 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.close()
     }
 
+    fun facturarStock(productId: Int, cantidad: Int) {
+        val db = writableDatabase
+
+        // Consultar el stock actual
+        val cursor = db.rawQuery("SELECT $COL_LOTE FROM $TABLE_PRODUCTOS WHERE $COL_ID = ?", arrayOf(productId.toString()))
+        if (cursor.moveToFirst()) {
+            val stockActual = cursor.getInt(cursor.getColumnIndexOrThrow(COL_LOTE))
+            cursor.close()
+
+            // Restar la cantidad al stock actual
+            val nuevoStock = stockActual - cantidad
+
+            // Verifica que el nuevo stock no sea negativo
+            if (nuevoStock >= 0) {
+                // Actualizamos el stock en la base de datos
+                val values = ContentValues().apply {
+                    put(COL_LOTE, nuevoStock)
+                }
+                db.update(TABLE_PRODUCTOS, values, "$COL_ID = ?", arrayOf(productId.toString()))
+            } else {
+                throw IllegalArgumentException("El stock es insuficiente para el producto con ID: $productId")
+            }
+        } else {
+            cursor.close()
+            throw IllegalArgumentException("El producto con ID $productId no existe en la base de datos")
+        }
+
+        db.close()
+    }
+
+
 }
 
